@@ -4,15 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
-
 import java.time.Duration;
-import java.util.List;
-import java.util.Random;
 
 public class ShopingBooks {
 
@@ -21,12 +16,12 @@ public class ShopingBooks {
 
 
     @Test
-    public void meatodaTest() {
+    public void meatodaTest() throws InterruptedException {
 
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-search-engine-choice-screen");
-        driver = new ChromeDriver(options);
+        //ChromeOptions options = new ChromeOptions();
+       //options.addArguments("--disable-search-engine-choice-screen");
+        driver = new FirefoxDriver();
         driver.get("http://demo.automationtesting.in/Index.html");
         driver.manage().window().maximize();
 
@@ -45,24 +40,52 @@ public class ShopingBooks {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0,650)", "");
-
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
         WebElement androidBookElement = driver.findElement(By.cssSelector("a[data-product_id='169']"));
+        Assert.assertTrue(androidBookElement.isDisplayed(), "Android Book is not displayed");
         androidBookElement.click();
+        System.out.println("Clicked Android book element");
 
+        Thread.sleep(3000);
 
         WebElement programingBookElement = driver.findElement(By.cssSelector("a[data-product_id='182']"));
+        Assert.assertTrue(programingBookElement.isDisplayed(), "Programming Book is not displayed");
         programingBookElement.click();
+        System.out.println("Clicked Programming book element");
+
+        Thread.sleep(3000);
 
         WebElement htmlBookElement = driver.findElement(By.cssSelector("a[data-product_id='170']"));
+        Assert.assertTrue(htmlBookElement.isDisplayed(), "HTML Book is not displayed");
         htmlBookElement.click();
+        System.out.println("Clicked HTML book element");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement basketButtonElement = driver.findElement(By.id("wpmenucartli"));
+        basketButtonElement.click();
 
-        WebElement shoppingCartElement = driver.findElement(By.id("wpmenucartli"));
-        shoppingCartElement.click();
+        Thread.sleep(3000);
+
+        WebElement removebook1Element = driver.findElement((By.cssSelector("a.remove[data-product_id='170']")));
+        removebook1Element.click();
+        System.out.println("Clicked remove button element");
+
+        Thread.sleep(3000);
+
+        WebElement removebook2Element = driver.findElement((By.cssSelector("a.remove[data-product_id='182']")));
+        removebook2Element.click();
+        System.out.println("Clicked remove button element");
+
+        Thread.sleep(3000);
+
+        WebElement removebook3Element = driver.findElement((By.cssSelector("a.remove[data-product_id='169']")));
+        removebook3Element.click();
+        System.out.println("Clicked remove button element");
+
+        WebElement returnToShopButtonElement = driver.findElement(By.xpath("//a[@class='button wc-backward']"));
+        returnToShopButtonElement.click();
+
+        driver.quit();
 
 
 
